@@ -1,0 +1,135 @@
+Package lft_2014.compiler_portugol;
+
+Helpers
+  
+  a = 'a';
+  b = 'b';
+  c = 'c';
+  d = 'd';
+  e = 'e';
+  f = 'f';
+  g = 'g';
+  h = 'h';
+  i = 'i';
+  j = 'j';
+  k = 'k';
+  l = 'l';
+  m = 'm';
+  n = 'n';
+  o = 'o';
+  p = 'p';
+  q = 'q';
+  r = 'r';
+  s = 's';
+  t = 't';
+  u = 'u';
+  v = 'v';
+  w = 'w';
+  x = 'x';
+  y = 'y';
+  z = 'y';
+  
+  cx_baixa = ['a' .. 'z'];
+  cx_alta = ['A' .. 'Z'];
+  letras = cx_alta | cx_baixa;
+  digito = ['0' .. '9'];
+  ascii = [0x000000 .. 0xffffff];
+  sublinhaddo = '_';
+  tab = 09;
+  cr = 13;
+  lf = 10; 
+  
+States
+  normal,
+  comment;
+  
+Tokens
+
+  //palavras reservadas
+  {normal} programa = 'programa';
+  {normal} inicio = 'inicio';
+  {normal} fim = 'fim.';
+  {normal} var = 'var';
+  {normal} declaracao = 'declaracao';
+  {normal} tipo = 'tipo';
+  {normal} const = 'const';
+  valor = 'valor';
+  leia = 'leia';
+  escreva = 'escreva';
+  para = 'para';
+  faca = 'faca';
+  de = 'de';
+  passo = 'passo';
+  fim_para = 'fimpara';
+  enquanto = 'enquanto';
+  fim_enquanto = 'fim enquanto';
+  repita = 'repita';
+  ate = 'ate';
+  se = 'se';
+  fim_se = 'fim se';
+  entao = 'entao';
+  senao = 'senao';
+  avalie = 'avalie';
+  fim_avalie = 'fim avalie';
+  caso = 'caso';
+  inteiro = 'inteiro';
+  real = 'real';
+  caractere = 'caractere';
+  nao = 'nao';
+  e = 'e';
+  ou = 'ou';
+  xor = 'xor';
+  
+  branco = ' ';
+  brancos = (' '+ | cr lf| cr| lf| tab)*;
+  
+  //operadores
+  mais = '+';
+  menos = '-';
+  mult = '*';
+  div = '/';
+  atribuicao = '<-';
+  igual = '=';
+  diferente = '<>';
+  maiorq = '>';
+  maiorigl = '>=';
+  menorq = '<';
+  menorigl = '<=';
+    
+  //comentario de linha
+  cmnt_ln = '//'[ascii - cr]* | '//'[ascii - lf]*;
+  
+  //delimitadores
+ virgula = ',';
+ dois_pontos = ':';
+  ponto_virgula = ';';
+  paren_dir = ')';
+  paren_esq = '(';
+  colc_esq = '[';
+  colc_dir = ']';
+  aspa = ''';
+   
+  //identificador
+  {normal} id = 'fim' | cx_baixa(letras | digito)* | sublinhaddo(letras | digito)+;
+  
+  //numero inteiro
+  {normal} n_int = digito+;
+  
+{normal} blank = (' ' | 10 | 13 | 9)*;
+ 
+
+
+{normal->comment, comment}
+          comment = '/*';
+
+
+{comment} comment_end = '*/';
+{comment} comment_body = [ascii -['*' + '/']]*;
+{comment} star = '*';
+{comment} slash = '/';
+   
+
+Ignored Tokens
+  cmnt_ln,
+  branco,  
+  brancos ;
